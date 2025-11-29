@@ -32,6 +32,7 @@ class StudentRouter(BaseHTTPRequestHandler):
     def do_GET(self):
         path = urlparse(self.path).path
 
+
         # # HTML pages
         # if path in ("/", "/index.html"):
         #     return serve_static(self, "templates/index.html")
@@ -50,17 +51,18 @@ class StudentRouter(BaseHTTPRequestHandler):
         if path == "/api/students":
             return get_all_students(self)
 
-        # # API: Get student by ID
-        # if path.startswith("/api/students/"):
-        #     student_id = int(path.split("/")[-1])
-        #     return get_student(self, student_id)
+         # API: Get student by ID
+        if path.startswith("/api/students/"):
+            student_id = int(path.split("/")[-1])
+            return get_student(self, student_id)
 
         return send_404(self)
 
-    # def do_POST(self):
-    #     if self.path == "/api/students":
-    #         return create_student(self)
-    #     return send_404(self)
+    def do_POST(self):
+        if self.path == "/api/students":
+            return create_student(self)
+        return send_404(self)
+    
 
     # def do_PUT(self):
     #     if self.path.startswith("/api/students/"):
